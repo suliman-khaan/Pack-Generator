@@ -148,6 +148,7 @@ h2 {
   background-color: transparent;
   -webkit-transition: .4s;
   transition: .4s;
+  overflow: hidden;
 }
 
 .card-section .slider:before {
@@ -162,10 +163,26 @@ h2 {
   background-color: var(--color-primary-dark-blue);
   -webkit-transition: .4s;
   transition: .4s;
+  z-index: 2;
 }
 
-.card-section input:checked+.slider {
-  background-color: transparent;
+.slider::after {
+  content: '';
+  width: 50%;
+  opacity: 0;
+  height: calc(100% - 5px);
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  transform: translate(0, -50%);
+  z-index: 1;
+  transition: all 0.3s linear;
+  background-color: var(--color-light);
+}
+
+.card-section input:checked+.slider:after {
+  width: calc(100% - 6px);
+  opacity: 1;
 }
 
 .card-section input:focus+.slider {
@@ -182,7 +199,8 @@ h2 {
   border-radius: 20px;
 }
 
-.card-section .slider.round:before {
+.card-section .slider.round:before,
+.card-section .slider.round:after {
   border-radius: 20px;
 }
 
@@ -200,32 +218,51 @@ h2 {
   margin: 3px 0px 0px 3px;
   width: 96%;
   height: 18px;
-  background: linear-gradient(90deg, rgb(244, 244, 244) 5%, var(--color-primary-lighter-blue-alpha)5%);
   --webkit-transform: 0.2s;
   transition: .2s;
   cursor: pointer;
   outline: none;
-  border-radius: 12px;
+  border: 0;
+  border-radius: 500px;
+  max-width: 100%;
+  transition: box-shadow 0.2s ease-in-out;
+}
+/* Chrome */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+ .card-section .range {
+    overflow: hidden;
+    height: 18px;
+    -webkit-appearance: none;
+    background-color: transparent;
+  }
+
+  .card-section .range::-webkit-slider-thumb {
+    width: 18px;
+    -webkit-appearance: none;
+    height: 18px;
+    cursor: ew-resize;
+    box-shadow: -210px 0 0 200px var(--color-light), inset 0 0 0 10px var(--color-primary-dark-blue);
+    border-radius: 50%;
+    transition: box-shadow 0.2s ease-in-out;
+    position: relative;
+  }
 }
 
-.card-section .range::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  align-self: center;
-  appearance: none;
-  width: 20px;
-  height: 20px;
+/* Firefox */
+.card-section .range::-moz-range-progress {
+  background-color: var(--color-light);
+  outline: none;
+  border: none;
+  border-radius: 50px;
+  height: 100%;
+}
+.card-section .range::-moz-range-thumb {
   background-color: var(--color-primary-dark-blue);
-  border-radius: 50%;
 }
 
-.card-section .range::-moz-slider-thumb {
-  align-self: center;
-  appearance: none;
-  width: 20px;
-  height: 20px;
+/* IE */
+.card-section .range::-ms-fill-lower {
   background-color: var(--color-primary-dark-blue);
-  border-radius: 50%;
 }
 
 /* font sizes */
@@ -275,6 +312,10 @@ h2 {
   color: var(--color-white);
   height: calc(80vh - 150px);
 
+}
+
+.scroll-view p {
+  color: var(--color-light);
 }
 
 .scroll-view::-webkit-scrollbar {
@@ -358,7 +399,7 @@ h2 {
   align-items: flex-start;
 }
 
-#pills-builder .card-body .card-section .card  {
+#pills-builder .card-body .card-section .card {
   width: 100%;
 }
 
@@ -468,20 +509,23 @@ h2 {
 /* ******************************************************************************************************************* */
 /* tablet screen  768px*/
 @media screen and (max-width: 768px) {
-  
-/* right-section */
-.scroll-view {
-  height: calc(50vh - 20px);
-}
-#pills-profile .scroll-view {
-  height: calc(65vh - 20px);
-}
-#ideas .scroll-view  {
-  height: calc(50vh - 50px);
-}
-#pills-builder .scroll-view{
-  height: calc(50vh - 50px);
-}
+
+  /* right-section */
+  .scroll-view {
+    height: calc(50vh - 20px);
+  }
+
+  #pills-profile .scroll-view {
+    height: calc(65vh - 20px);
+  }
+
+  #ideas .scroll-view {
+    height: calc(50vh - 50px);
+  }
+
+  #pills-builder .scroll-view {
+    height: calc(50vh - 50px);
+  }
 
   .scroll-view::-webkit-scrollbar {
     width: 13px !important;
@@ -509,6 +553,7 @@ h2 {
     height: 100%;
     padding-bottom: 20px;
   }
+
   /* nav contents */
   .pack-body .nav-pills .nav-item {
     width: 200px;
@@ -553,9 +598,9 @@ h2 {
   }
 
   input:checked+.slider:before {
-    transform: translate(100%, -50%)!important;
-    -ms-transform: translate(100%, -50%);
-    -webkit-transform: translate(100%, -50%);
+    transform: translate(61%, -50%) !important;
+    -ms-transform: translate(61%, -50%);
+    -webkit-transform: translate(61%, -50%);
   }
 
   /* range  */
@@ -567,7 +612,7 @@ h2 {
   .range {
     width: 96%;
     height: 16px;
-    margin: 2px 0 0 2px!important;
+    margin: 2px 0 0 2px !important;
   }
 
 
@@ -580,10 +625,12 @@ h2 {
     width: 16px;
     height: 16px;
   }
+
   #pills-profile .scroll-view {
     height: calc(66vh - 20px);
   }
-  #ideas .scroll-view  {
+
+  #ideas .scroll-view {
     height: calc(60vh - 50px);
   }
 
